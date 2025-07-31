@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PeliculaRepository extends JpaRepository<Pelicula, Long> {
     List<Pelicula> findByTituloContaining(String titulo);
-    List<Pelicula> findByGeneroNombre(String genero);
+    List<Pelicula> findByGenero_Nombre(String genero);
 }

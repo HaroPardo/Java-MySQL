@@ -1,12 +1,11 @@
 package com.movies.Java_MySQL.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
-@JsonIgnoreProperties({"genero", "hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pelicula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,27 +16,26 @@ public class Pelicula {
 
     private Integer anio;
     private String director;
+
     @Column(name = "puntuacion_imdb")
     private Double puntuacionImdb;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "genero_id")
     @JsonIgnoreProperties("peliculas")
     private Genero genero;
-    @JsonCreator
-    public Pelicula(@JsonProperty("titulo") String titulo,
-                    @JsonProperty("anio") Integer anio,
-                    @JsonProperty("director") String director,
-                    @JsonProperty("puntuacionImdb") Double puntuacionImdb,
-                    @JsonProperty("genero") String generoNombre) {
-        this.titulo = titulo;
-        this.anio = anio;
-        this.director = director;
-        this.puntuacionImdb = puntuacionImdb;
-        this.genero = new Genero(generoNombre);
+
+    @Transient
+    @JsonProperty("genero")
+    private String generoNombre;
+
+    public void setGeneroNombre(String generoNombre) {
+        this.generoNombre = generoNombre;
     }
+
     public Pelicula() {}
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -84,5 +82,15 @@ public class Pelicula {
 
     public void setGenero(Genero genero) {
         this.genero = genero;
+    }
+
+    public String getGeneroNombre() {
+        return generoNombre;
+    }
+
+    // Optional: you can also serialize generoNombre when returning JSON
+    @JsonProperty("genero")
+    public String generoNombre() {
+        return genero != null ? genero.getNombre() : generoNombre;
     }
 }
