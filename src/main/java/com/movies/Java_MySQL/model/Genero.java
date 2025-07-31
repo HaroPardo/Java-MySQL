@@ -1,5 +1,6 @@
 package com.movies.Java_MySQL.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -10,11 +11,13 @@ public class Genero {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    public Genero() {}
 
     @Column(unique = true, nullable = false)
     private String nombre;
 
     @OneToMany(mappedBy = "genero", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Pelicula> peliculas;
 
     public Long getId() {
@@ -39,5 +42,8 @@ public class Genero {
 
     public void setPeliculas(List<Pelicula> peliculas) {
         this.peliculas = peliculas;
+    }
+    public Genero(String nombre) {
+        this.nombre = nombre;
     }
 }
