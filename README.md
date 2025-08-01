@@ -24,4 +24,11 @@
 - **Base de datos secundaria**: PostgreSQL  
 - **Herramienta de pruebas**: Postman  
 
-![ER Diagram](exports/ER-Esquema.png)
+## 📐 Entity-Relationship Diagram
+
+> A continuación, se muestra el **diagrama Entidad-Relación** de nuestra base de datos de películas.
+
+<figure align="center">
+  <img src="exports/ER-Esquema.png" alt="ER Diagram" width="700">
+  <figcaption><em>Figura 1.</em> Diagrama ER de la base de datos.</figcaption>
+</figure>
